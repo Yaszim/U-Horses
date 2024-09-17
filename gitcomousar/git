@@ -1,0 +1,18 @@
+como usar o git:
+
+git init -> para inciar o git
+git add . -> para adicionar tudo do arquivo
+git branch -M main
+git commit -m "primeiro commit"
+git remote add origin https://github.com/Yaszim/U-Horses.git -> adicionar ao seu repositório web
+git push -u origin main -> jogar para o repositório 
+
+caso já commitou uma vez e quer mais um commit, apenas estes comandos:
+
+git init
+git add .
+git branch -M main
+git commit -m "primeiro commit"
+git push -u origin main -> jogar para o repositório 
+
+git status: para ver o estado dos arquivos que deseja mandar
