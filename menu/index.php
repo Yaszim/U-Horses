@@ -16,7 +16,7 @@ if (!isset($_SESSION['idusuario'])) {
 </head>
 <body>
     <?php 
-      include "nav.php";
+      include "../nav.php";
     ?>
     <div class="h-12">
         <img src="../img/fundo2.jpg"  alt="">

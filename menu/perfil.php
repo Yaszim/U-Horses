@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <?php include "nav.php"; ?>
+    <?php include "../nav.php"; ?>
     <div class="mx-12 items-center lg:px-8 p-2 bg-[#F4E9DF] rounded-2x1 w-80% border-solid border-2 border-[#331107]">
         <div class="text-center items-center mt-6 mb-8 text-5xl font-bold leading-9 tracking-tight text-[#331107]">
             <h2>Perfil</h2>
@@ -43,7 +43,7 @@
                     <p class='mt-4 text-red-950 text-1xl font-semibold'><?php echo $dados['nome'];?></p>
                     <p class='my-3 text-red-950 text-1xl font-semibold'><?php echo $dados['email'];?></p>
                     <div class="flex text-center items-center gap-x-2 justify-between mx-16">
-                        <a href="../cadastro/cadastro.php?id=<?= $_SESSION['id']?>"><button class="bg-[#AC7867] w-50 rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shandow-sm hover:bg-[#56291C] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#896153]">ALTERAR DADOS</button></a>
+                        <a href="../editar/editar_perfil.php"><button class="bg-[#AC7867] w-50 rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shandow-sm hover:bg-[#56291C] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#896153]">ALTERAR DADOS</button></a>
                         <a href="../login/logout.php"><button name="acao" id="acao" value="Logout" type="submit" class="bg-[#AC7867] w-50 rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shandow-sm hover:bg-[#56291C] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#896153]">DESLOGAR</button></a>
                     </div>
                 </div>
