@@ -7,6 +7,7 @@
     <title>Alterar Equino</title>
 </head>
 <body>
+<?php include_once('../usuario/equino.php');?>
 <?php include "../nav.php"; ?>
     <div class="mx-12 items-center lg:px-8 p-2 bg-[#F4E9DF] rounded-2x1 w-80% border-solid border-2 border-[#331107]">
         <div class="text-center items-center mt-6 mb-8 text-5xl font-bold leading-9 tracking-tight text-[#331107]">

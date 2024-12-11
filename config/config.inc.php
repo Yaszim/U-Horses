@@ -6,3 +6,4 @@ define('PORT', '3306');
 define('DB', 'cavalo'); 
 define('DSN', "mysql:host=".HOST.";port=".PORT.";dbname=".DB.";charset=UTF8");
 
+define('IMG','imagens');

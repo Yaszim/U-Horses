@@ -17,7 +17,7 @@ class Usuario
 
 
     // Construtor da classe
-    public function __construct($id = 0, $nome = "null", $email = "null", $dataNasc = "null", $genero = "null", $login)
+    public function __construct($id = 0, $nome = "null", $email = "null", $dataNasc = "null", $genero = "null", Login $login)
     {
         $this->setId($id);
         $this->setNome($nome);
@@ -70,36 +70,14 @@ class Usuario
         else
             $this->genero = $novoGenero;
     }
+    public function getLogin(){ return $this->login; }
+    public function getId(){ return $this->id; }
+    public function getNome() { return $this->nome;}
+    public function getEmail() { return $this->email;}
+    public function getDataNasc() { return $this->dataNasc;}
+    public function getGenero() { return $this->genero;}
 
 
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function getNome()
-    {
-        return $this->nome;
-    }
-
-    public function getEmail()
-    {
-        return $this->email;
-    }
-    public function getDataNasc()
-    {
-        return $this->dataNasc;
-    }
-    public function getGenero()
-    {
-        return $this->genero;
-    }
-
-    public function getLogin()
-    {
-        return $this->login;
-    }
 
     // Método para incluir aluno e usuário no banco de dados
     public function incluir()
@@ -107,22 +85,18 @@ class Usuario
     $conexao = Database::getInstance();
     $sql = 'INSERT INTO usuario (nome, email, dataNasc, genero, usuario, senha)
             VALUES (:nome, :email, :dataNasc, :genero, :usuario, :senha)';
-    $comando = $conexao->prepare($sql);
-    $comando->bindValue(':nome', $this->nome);
-    $comando->bindValue(':email', $this->email);
-    $comando->bindValue(':dataNasc', $this->dataNasc);
-    $comando->bindValue(':genero', $this->genero);
-    $comando->bindValue(':usuario', $this->login->getUsuario(), PDO::PARAM_STR);
-    $comando->bindValue(':senha', sha1($this->login->getSenha()), PDO::PARAM_STR);
+    $parametros = array(':id'=>$this->getId(),
+                            ':nome'=> $this->getNome(),
+                            ':email'=> $this->getEmail(),
+                            ':dataNasc'=> $this->getDataNasc(),
+                            ':genero'=> $this->getGenero(),
+                            ':usuario'=> $this->login->getUsuario(),
+                            ':senha'=> password_hash($this->login->getSenha(), PASSWORD_DEFAULT), PDO::PARAM_STR,
+    );
 
-    try {
-        $comando->execute();
-        // Recupera o id gerado
-        $this->id = $conexao->lastInsertId();
-        return true;
-    } catch (PDOException $e) {
-        throw new Exception("Erro ao executar o comando no banco de dados: " . $e->getMessage() . " - " . $comando->errorInfo()[2]);
-    }
+    Database::executar($sql, $parametros);      
+    $this->setId(Database::$lastId);
+    return true;
 }
 
     public function autenticar()
@@ -151,40 +125,32 @@ class Usuario
     }
 
     // Método para excluir aluno
-    public function excluir()
-    {
-        $sql = 'DELETE FROM usuario WHERE id = :id';
-        $parametros = array(':id' => $this->id);
-        return Database::executar($sql, $parametros);
-    }
-
+    public function excluir(){
+        $conexao = Database::getInstance();
+        $sql = 'DELETE FROM equino WHERE id = :id';
+        $comando = $conexao->prepare($sql);
+        $comando->bindValue(':id', $this->id);
+        return $comando->execute();
+    }  
     // Método para alterar aluno
     public function alterar()
     {
-        $conexao = Database::getInstance();
         $sql = 'UPDATE usuario
                 SET nome = :nome, email = :email, dataNasc = :dataNasc, genero = :genero, usuario = :usuario, senha = :senha
                 WHERE id = :id';
-        $comando = $conexao->prepare($sql);
-        $comando->bindValue(':id', $this->id);
-        $comando->bindValue(':nome', $this->nome);
-        $comando->bindValue(':email', $this->email);
-        $comando->bindValue(':dataNasc', $this->dataNasc);
-        $comando->bindValue(':genero', $this->genero);
-        $comando->bindValue(':usuario', $this->login->getUsuario());
-        $comando->bindValue(':senha', password_hash($this->login->getSenha(), PASSWORD_DEFAULT), PDO::PARAM_STR);
-        try {
-            $comando->execute();
-            return true;
-        } catch (PDOException $e) {
-            throw new Exception("Erro ao executar o comando no banco de dados: " . $e->getMessage() . " - " . $comando->errorInfo()[2]);
-        }
+        $parametros = array(':id'=>$this->getId(),
+                            ':nome'=> $this->getNome(),
+                            ':email'=> $this->getEmail(),
+                            ':dataNasc'=> $this->getDataNasc(),
+                            ':genero'=> $this->getGenero(),
+                            ':usuario'=> $this->login->getUsuario(),
+                            ':senha'=> password_hash($this->login->getSenha(), PASSWORD_DEFAULT), PDO::PARAM_STR,
+        );
+        Database::executar($sql, $parametros);
+        return true;
     }
-
     // Método estático para listar alunos
-    public static function listar($tipo = 0, $busca = "")
-    {
-        $conexao = Database::getInstance();
+    public static function listar($tipo = 0, $busca = "" ):array{
         $sql = "SELECT * FROM usuario";
         if ($tipo > 0) {
             switch ($tipo) {
@@ -201,13 +167,12 @@ class Usuario
                     break;
             }
         }
-        $comando = $conexao->prepare($sql);
-        if ($tipo > 0) {
-            $comando->bindValue(':busca', $busca);
-        }
-        $comando->execute();
-        $usuarios = array();
-        while ($registro = $comando->fetch()) {
+        $parametros = array();
+        if ($tipo > 0 )
+            $parametros = array(':busca'=>$busca); 
+        $comando = Database::executar($sql, $parametros); 
+        $usuarios = array();            
+        while($registro = $comando->fetch(PDO::FETCH_ASSOC)){ 
             $login = new Login($registro['usuario'], $registro['senha']);
             $usuario = new Usuario($registro['id'], $registro['nome'], $registro['email'], $registro['dataNasc'], $registro['genero'], $login);
             array_push($usuarios, $usuario);

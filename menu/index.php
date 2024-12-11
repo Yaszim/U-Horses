@@ -36,11 +36,14 @@ if (!isset($_SESSION['idusuario'])) {
   <div class="bg-white p-24">
     <div class="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-6 px-4 py-16 sm:px-6 sm:py-16 lg:max-w-7xl lg:grid-cols-2 lg:px-4">
       <div class="grid gap-6 sm:gap-6 lg:gap-8">
-        <p class=" font-bold mt-4 text-orange-950 tracking-tight">Vamos aprender a cuidar corretamente dos nossos queridos equinos, e criar
+        <p class=" font-bold mt-2 text-orange-950 tracking-tight">Vamos aprender a cuidar corretamente dos nossos queridos equinos, e criar
         laços cada vez mais fortes com esses animais</p> 
-        <p class=" font-bold mt-4 text-orange-950 tracking-tight">
+        <p class=" font-bold mt-2 text-orange-950 tracking-tight">
         Aprender mais sobre a vida equina, sobre suas raças, 
         tipos de pelagem e curiosiades.</p>
+        <div>
+          <a href=""><button type="submit" class=" bg-[#E7CBB2] flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shadow-sm hover:bg-[#AC7867] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Aprenda como cuidar dos equinos</button></a>
+        </div>
       </div>
         <div class="grid gap-8 sm:gap-8 lg:gap-8 rounded-lg">
           <img src="../img/cvl.jpg" alt="" class="border-solid border-2 border-yellow-900 overflow-hidden mx-auto max-w-2xl lg:max-w-none rounded-lg " width="300">

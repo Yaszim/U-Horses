@@ -77,12 +77,12 @@ include_once('../usuario/usuario.php');
                         </div>
                     
                     <div class="sm:col-span-2 mt-2">
-                        <a href="../menu/perfil.php"><button type="submit" name="acao" id="acao" value="salvar" class=" bg-[#E7CBB2] flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shadow-sm hover:bg-[#AC7867] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Cadastrar-se</button></a>
+                        <a href=""><button type="submit" name="acao" id="acao" value="salvar" class=" bg-[#E7CBB2] flex w-full justify-center rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shadow-sm hover:bg-[#AC7867] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Cadastrar-se</button></a>
                     </div>
                     <div class="col-span-2">
                       <p class="text-center text-sm text-gray-500">
                           Já tem Cadastro?
-                        <a href="../login/login.php" class="font-semibold leading-6 text-amber-950 hover:text-[#AC7867]">Faça seu Login aqui</a>
+                        <a href="../login/index.php" class="font-semibold leading-6 text-amber-950 hover:text-[#AC7867]">Faça seu Login aqui</a>
                       </p>
                     </div>
                 </form>

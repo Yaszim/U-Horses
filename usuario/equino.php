@@ -15,14 +15,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $altura =  isset($_POST['altura']) ? $_POST['altura'] : 0;
     $generoEq =  isset($_POST['generoEq']) ? $_POST['generoEq'] : "";
     $nomeTutor =  isset($_POST['nomeTutor']) ? $_POST['nomeTutor'] : "";
-    
+    $id_usuario =  isset($_POST['id_usuario']) ? $_POST['id_usuario'] : "";
+    $acao = isset($_POST['acao']) ? $_POST['acao'] : "";
+    $arquivo = isset($_FILES['img']) ? $_FILES['img'] : "";
+    $destino = "./". IMG ."/".$arquivo['name'];
+    var_dump($_FILES);
+
     try{
-     
-        $acao = isset($_POST['acao']) ? $_POST['acao'] : 'salvar';
-
-
-        $usuario = Usuario::listar(1, $_POST['usuario'])[0];
-        $equino = new Equino($id, $nomeEq, $dataNascEq,$raca, $pelagem, $peso, $altura,$generoEq, $nomeTutor);
+        $usuario = Usuario::listar(1,['id_usuario'])[0];
+        $equino = new Equino($id, $nomeEq, $dataNascEq,$raca, $pelagem, $peso, $altura,$generoEq, $nomeTutor, $destino);
 
         $resultado = "";
         if($acao == 'salvar'){
@@ -31,31 +32,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             else 
                 $resultado = $equino->incluir();
         } elseif ($acao == 'excluir') {
+            echo "chegou";
+            exit;
             $resultado = $equino->excluir();
         }
+        $_SESSION['MSG'] = "Dados inseridos/Alterados com sucesso!";
+        move_uploaded_file($arquivo['tmp_name'],$destino);
 
-        if ($resultado) {
-            header('location: ../menu/perfil.php?MSG=Dados inseridos/Alterados com sucesso!');
-            exit;
-        }
+    }catch(Exception $e){ 
+        $_SESSION['MSG'] = $e->getMessage();
 
-        header('location: ../cadastro/cad_cavalo.php?MSG=Erro ao inserir/alterar registro');
-    } catch (Exception $e) { 
-        header('location: ../cadastro/cad_cavalo.php?MSG=Erro: '.$e->getMessage()); 
+    }finally{
+         header('location: ../menu/perfilcvl.php?id='.$equino->getId());
     }
-} elseif($_SERVER['REQUEST_METHOD'] == 'GET') { 
+}elseif($_SERVER['REQUEST_METHOD'] == 'GET'){ 
     $id =  isset($_GET['id'])?$_GET['id']:0; 
     $msg = (isset($_SESSION['MSG'])?$_SESSION['MSG']:"");
     if ($msg != ""){
         echo "<h2>{$msg}</h2>";
         unset($_SESSION['MSG']);
-}
+    }
+
 
      if ($id > 0) {
-         $lista = Equino::listar(1,$id)[0]; 
+         $equinos = Equino::listar(1,$id)[0]; 
+         
      }
      $busca =  isset($_GET['busca'])?$_GET['busca']:0;
      $tipo =  isset($_GET['tipo'])?$_GET['tipo']:0;   
      $lista = Equino::listar($tipo,$busca); 
+     
 }
 ?>

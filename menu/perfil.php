@@ -1,28 +1,26 @@
 <?php 
 session_start(); 
+include_once('../usuario/usuario.php');
+include_once('../usuario/equino.php');
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil</title>
 </head>
-<?php 
-include_once('../usuario/usuario.php');
-?>
 <body>
     <?php include "../nav.php"; ?>
-    <div class="mx-12 items-center lg:px-8 p-2 bg-[#F4E9DF] rounded-2x1 w-80% border-solid border-2 border-[#331107]">
+    <div class="mx-12 items-center lg:px-8 p-2 bg-[#F4E9DF] rounded-2xl w-80% border-solid border-2 border-[#331107]">
         <div class="text-center items-center mt-6 mb-8 text-5xl font-bold leading-9 tracking-tight text-[#331107]">
             <h2>Perfil</h2>
         </div>
         <div class="flex grid grid-cols-3 grid-rows-1 mx-3 my-3 gap-x-6 gap-y-6">
             <div class="col-span-1 text-center items-center">
                 <div class="row-span-1 flex justify-center">
-                    <form action="" id="formulario" method="post" enctype="multipart/form-data">
+                    <form action="../usuario/usuario.php" method="post" enctype="multipart/form-data">
                         <div class="flex flex-col">
                             <label for="imgPerfil" id="labelFotoPerfil" class="group/item">
                                 <div class="rounded-full cursor-pointer">
@@ -39,8 +37,7 @@ include_once('../usuario/usuario.php');
                                     </span>
                                 </div>
                             </label>
-                            <input type="file" name="imgPerfil" onchange="formulario.submit()" id="imgPerfil" accept=".png, .jpg, .jpeg" required class="hidden">
-                            <input type="hidden" name="acao" id="acao" value="novafoto">
+                           
                         </div>
                     </form>
                 </div>
@@ -48,66 +45,40 @@ include_once('../usuario/usuario.php');
                     <p class='mt-4 text-red-950 text-1xl font-semibold'><?php echo $_SESSION['nome']; ?></p>
                     <p class='my-3 text-red-950 text-1xl font-semibold'><?php echo $_SESSION['email']; ?></p>
                     <div class="flex text-center items-center gap-x-2 justify-between mx-16">
-                        <a href="../editar/editar_perfil.php"><button name="acao" id="acao" value="salvar" type="submit" class="bg-[#AC7867] w-50 rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shandow-sm hover:bg-[#56291C] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#896153]">ALTERAR DADOS</button></a>
-                        <a href="../login/logout.php"><button name="acao" id="acao" value="Logout" type="submit" class="bg-[#AC7867] w-50 rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shandow-sm hover:bg-[#56291C] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#896153]">DESLOGAR</button></a>
+                    <a href="../editar/editar_perfil.php" class="bg-[#AC7867] w-50 rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shadow-sm hover:bg-[#56291C]">ALTERAR DADOS</a>
+                     <a href="../login/logout.php">
+                            <button name="acao" id="acao" value="Logout" type="button" class="bg-[#AC7867] w-50 rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shadow-sm hover:bg-[#56291C]">DESLOGAR</button>
+                        </a>
                     </div>
                 </div>
+                <div class="flex justify-end mt-16">
+                    <a href="../cadastro/cad_cavalo.php" class="bg-[#AC7867] w-50 rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shadow-sm hover:bg-[#56291C]">Cadastrar Cavalo</a>
+                </div>
             </div>
-            <div class="col-span-2 text-center items-center">
-                <div class="flex grid grid-cols-5 grid-rows-9 mx-8 lg:px-8 p-3 bg-[#E7CBB2] opacity-75 rounded-2x1 w-80% border-solid border-2 border-[#331107]">
-                    <div class="col-span-5 row-span-2 my-2 lg:px-8 p-2 bg-[#E7CBB2] rounded-2x1 border-solid border-2 border-[#331107]">
-                        <div class="flex my-2 justify-between">
-                            <div class="flex">
-                                <div>
-                                    <img src="../img/quadrado1.jpg" class="h-20" alt="">
-                                </div>
-                                <div class="flex ml-4 justify-between">
-                                    <div class="text-start items-start">
-                                        <p class="text-red-950 text-1xl font-semibold leading-6">Nome do equino</p>
-                                        <a href="../editar/editar_equino.php"><button type="submit" class="bg-[#AC7867] w-50 mt-5 rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shandow-sm hover:bg-[#56291C] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#896153]">MAIS INFO</button></a>
+            <div class="flex col-span-2 text-center items-center">
+                <div class="flex grid grid-cols-3 grid-rows-2 mx-10 lg:px-6 p-3 bg-[#E7CBB2] opacity-95 rounded-2xl w-80% border-solid border-2 border-[#331107]">
+                    <?php foreach ($lista as $equino) { ?>
+                        <div class="col-span-2 row-span-3 my-2 lg:px-4 p-2 bg-[#E7CBB2] rounded-2xl border-solid border-2 border-[#331107]">
+                            <div class="flex my-2 mx-12 justify-between">
+                                <div class="flex">
+                                    <div>
+                                        <img src="<?= $equino->getImg() ?>" alt="" class="w-20 h-20 rounded-2xl border-solid border-2 border-[#331107]">
+                                    </div>
+                                    <div class="flex ml-4 mx-12 justify-between">
+                                        <div class="text-start items-start">
+                                            <p class="text-red-950 text-1xl font-semibold leading-6"><?= $equino->getNomeEq() ?></p>
+                                            <a href="./perfilcvl.php?id=<?= $equino->getId() ?>">
+                                                <button type="button" class="bg-[#AC7867] w-50 mt-5 rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shadow-sm hover:bg-[#56291C]">MAIS INFO</button>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            
-                            <div class="justify-items-end text-end align-end items-end">
-                                <a href="../editar/editar_cavalo.php"><button class="bg-[#AC7867] mr-2 w-50 rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shandow-sm hover:bg-[#56291C] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#896153]">ALTERAR</button></a>
-                                <button type="submit" class="bg-[#AC7867] w-50 mt-11 rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shandow-sm hover:bg-[#56291C] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#896153]">EXCLUIR</button>
-                            </div>
                         </div>
-                        <!-- <div class="flex justify-between">
-                            <button type="submit" class="bg-[#AC7867] w-50 my-2 rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shandow-sm hover:bg-[#56291C] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#896153]">MAIS INFO</button>
-                            <div class="flex">
-                            </div>
-                        </div> -->
-                    </div>
-                    <div class="col-span-5 row-span-2 px-6 lg:px-8 p-2 bg-[#E7CBB2] rounded-2x1 border-solid border-2 border-[#331107]">
-                        <div class="flex my-2 justify-between">
-                            <div class="flex">
-                                <div>
-                                    <img src="../img/quadrado2.jpg" class="h-20" alt="">
-                                </div>
-                                <div class="flex ml-4 justify-between">
-                                    <div class="text-start items-start">
-                                        <p class="text-red-950 text-1xl font-semibold leading-6">Nome do equino</p>
-                                        <a href="../cadastro/cad_cavalo.php"><button class="bg-[#AC7867] w-50 mt-5 rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shandow-sm hover:bg-[#56291C] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#896153]">MAIS INFO</button></a>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="justify-items-end text-end align-end items-end">
-                                <a href="../editar/editar_cavalo.php"><button class="bg-[#AC7867] mr-2 w-50 rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shandow-sm hover:bg-[#56291C] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#896153]">ALTERAR</button></a>
-                                <button type="submit" class="bg-[#AC7867] w-50 mt-11 rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shandow-sm hover:bg-[#56291C] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#896153]">EXCLUIR</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="justify-between flex mx-12">
-                        <div class="relative fixed right-12">
-                            <a href="../cadastro/cad_cavalo.php"><button type="submit" class=" bg-[#AC7867] w-50 my-12 mb-2  rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shandow-sm hover:bg-[#56291C] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#896153]">CRIAR</button></a>
-                        </div>
-                    </div>
+                    <?php }  ?>   
                 </div>
             </div>
         </div>
     </div>
 </body>
-</html>
+</html> 

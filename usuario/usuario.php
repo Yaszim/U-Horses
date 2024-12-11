@@ -9,10 +9,6 @@ require_once("../classes/login.class.php");
 // preenchido com os dados do contato para edição
 $id =  isset($_GET['id'])?$_GET['id']:0; // pegar busca
 $msg =  isset($_GET['MSG'])?$_GET['MSG']:""; // pegar busca
-if ($id > 0){
-    $contato = Usuario::listar(1,$id)[0]; // cria a variável contato que será utilizada para preencher o formulário
-                                         //       quando o usuário clicar para alterar um registro
-}
 
 // Inserir e alterar dados
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -28,30 +24,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     try{
         // criar o objeto Pessoa que irá persistir os dados 
-      
         $login = new Login($usuario,$senha);
-        $usuario = new Usuario($id, $nome, $email, $dataNasc, $genero, $login);
+        $usuarioObj = new Usuario($id, $nome, $email, $dataNasc, $genero, $login);
 
         $resultado = "";
         if($acao == 'salvar'){
             if($id > 0)//alterando
                 // chamar o método para alterar uma pessoa
-                $resultado = $usuario->alterar();
+                $resultado = $usuarioObj->alterar();
             else // inserindo                        
                 // chamar o método para incluir uma pessoa
-                $resultado = $usuario->incluir();
+                $resultado = $usuarioObj->incluir();
         }elseif ($acao == 'excluir'){
             // chamar o método para exluir uma usuario
-            $resultado = $usuario->excluir();
+            $usuarioObj->setId($id);
+            $resultado = $usuarioObj->excluir();
         }        
         if ($resultado)
         header('location: ../login/index.php?MSG=Dados inseridos/Alterados com sucesso!');
-        exit;
+
 
             header('location: index.php?MSG=Erro ao inserir/alterar registro');
     }catch(Exception $e){ // caso ocorra algum erro na validação das regras de negócio dispara uma exceção
-        header('location: index.php?MSG=Erro: '.$e->getMessage()); // direciona para o incio com a mensagem de erro
+        header('location: ../menu/index.php?MSG=Erro: '.$e->getMessage()); // direciona para o incio com a mensagem de erro
     }
+    if ($id > 0){
+        $usuarioObj = Usuario::listar(1,$id)[0]; // cria a variável contato que será utilizada para preencher o formulário
+                                             //       quando o usuário clicar para alterar um registro
+    }
+    
 }elseif($_SERVER['REQUEST_METHOD'] == 'GET'){ // se a requisição é 
     //  Listagem e Pesquisa
     $busca =  isset($_GET['busca'])?$_GET['busca']:0; // pegar informação da busca

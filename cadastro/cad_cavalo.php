@@ -3,6 +3,7 @@
 <html lang="en">
 <?php  
 include_once('../usuario/equino.php'); 
+include_once('../usuario/usuario.php');
 ?>
 <head>
     <meta charset="UTF-8">
@@ -16,12 +17,12 @@ include_once('../usuario/equino.php');
         <div class="text-center items-center mt-6 mb-8 text-5xl font-bold leading-9 tracking-tight text-[#331107]">
             <h3>Cadastre seu equino</h3>
         </div>
-        <form action="../usuario/equino.php" method="post">
+        <form action="../usuario/equino.php" method="POST" enctype="multipart/form-data">
         <div class="flex grid grid-cols-3 grid-rows-1 mx-16 lg:px-8 p-3 bg-white rounded-2x1 w-80% border-solid border-2 border-[#331107]">
             <div class="col-span-1 text-center items-center">
                 <div class="row-span-1">
-                    <p class="mt-4 mb-1 font-bold leading-9 tracking-tight text-[#331107]">Adicionar imagem do equino</p>
-                    <img src="..//img/quadrado1.jpg" alt="">
+                    <label for="img" class="mt-4 mb-1 font-bold leading-9 tracking-tight text-[#331107]">Adicionar Imagem do cavalo:</label>
+                    <input type="file" name="img" id="img" class="border rounded p-2 w-full mb-2">
                 </div>
             </div>
             <div class="col-span-2 text-center items-center ">
@@ -100,8 +101,8 @@ include_once('../usuario/equino.php');
                     </div>
                 </div>
                 <div class="justify-items-end text-end align-end items-end">
-                    <button type="submit" value="salvar" name="acao" id="acao" class="bg-[#E7CBB2] mr-2 w-50 rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shandow-sm hover:bg-[#56291C] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">CADASTRAR</button>
-                    <a href="../menu/perfil.php"><button type="submit" class="bg-[#E7CBB2] w-50 mt-11 rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shandow-sm hover:bg-[#56291C] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">VOLTAR</button></a>
+                    <a href="../menu/perfil.php"><button type="submit"  name="acao" id="acao" value="salvar" class="bg-[#E7CBB2] mr-2 w-50 rounded-md px-3 py-1.5 text-sm font-semibold leading-6 text-red-950 shandow-sm hover:bg-[#56291C] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">CADASTRAR</button></a>
+                 
                 </div>
             </form>
             </div>
